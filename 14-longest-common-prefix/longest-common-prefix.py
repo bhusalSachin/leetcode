@@ -1,26 +1,15 @@
 class Solution:
-    def _longPrefixExtractor(self, strs: List[str], output: str="") -> str:
-        if not strs[0]:
-            return output
+    def _longPrefixExtractor(self, strs, idx=0):
+        if idx >= len(strs[0]):
+            return strs[0][:idx]
 
-        pc = strs[0][0]
-        conc = True
+        ch = strs[0][idx]
+
         for word in strs:
-            if not word:
-                conc = False
-                break
-            elif word[0] == pc:
-                continue
-            else:
-                conc = False
-                break
-        if not conc:
-            return output
-        else:
-            output += pc
-            strs = list(map(lambda x: x[1:], strs))
+            if idx >= len(word) or word[idx] != ch:
+                return strs[0][:idx]
 
-            return self._longPrefixExtractor(strs, output)
+        return self._longPrefixExtractor(strs, idx + 1)
 
-    def longestCommonPrefix(self, strs: List[str]) -> str:
+    def longestCommonPrefix(self, strs):
         return self._longPrefixExtractor(strs)
